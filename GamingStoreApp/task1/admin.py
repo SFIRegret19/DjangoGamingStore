@@ -19,3 +19,9 @@ class BuyerAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_per_page = 30
     readonly_fields = ('balance',)
+
+@admin.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('title', 'rarity',)
+    list_filter = ('rarity',)
+    search_fields = ('title', 'description')
