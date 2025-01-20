@@ -2,11 +2,21 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from task1.forms import UserRegister
-from task1.models import Buyer, Game
+from task1.models import Buyer, Game, News
+from django.core.paginator import Paginator
 # Create your views here.
 def platform_page_index(request):
     title = 'platform'
     pagename = 'Главная страница'
+    context = {
+        'title': title,
+        'pagename': pagename,
+    }
+    return render(request, './platform.html', context)
+
+def menu_page_index(request):
+    title = 'Menu'
+    pagename = 'Menu'
     platform_page_link_text = 'Главная'
     catalog_page_link_text = 'Магазин'
     cart_page_link_text = 'Корзина'
@@ -17,46 +27,32 @@ def platform_page_index(request):
         'catalog_page_link_text': catalog_page_link_text,
         'cart_page_link_text': cart_page_link_text
     }
-    return render(request, './fourth_task/platform.html', context)
+    return render(request, './menu.html', context)
 
 def catalog_page_index(request):
     title = 'games'
     pagename = 'Игры'
     games_list = Game.objects.all()
     button_text = 'Купить'
-    platform_page_link_text = 'Главная'
-    catalog_page_link_text = 'Магазин'
-    cart_page_link_text = 'Корзина'
     context = {
         'title': title,
         'pagename': pagename,
         'games_list': games_list,
         'button_text': button_text,
-        'platform_page_link_text': platform_page_link_text,
-        'catalog_page_link_text': catalog_page_link_text,
-        'cart_page_link_text': cart_page_link_text
     }
-    return render(request, './fourth_task/games.html', context)
+    return render(request, './games.html', context)
 
 def cart_page_index(request):
     title = 'cart'
     pagename = 'Корзина'
     cart_content_text = 'Извините, ваша корзина пуста'
-    platform_page_link_text = 'Главная'
-    catalog_page_link_text = 'Магазин'
-    cart_page_link_text = 'Корзина'
     context = {
         'title': title,
         'pagename': pagename,
         'cart_content_text': cart_content_text,
-        'platform_page_link_text': platform_page_link_text,
-        'catalog_page_link_text': catalog_page_link_text,
-        'cart_page_link_text': cart_page_link_text
     }
-    return render(request, './fourth_task/cart.html', context)
+    return render(request, './cart.html', context)
 
-def base(request):
-    return render(request, './fourth_task/menu.html')
 
 def sign_up_by_html(request):
     users = Buyer.objects.all()
@@ -70,7 +66,7 @@ def sign_up_by_html(request):
             age = int(age)  # Преобразуем возраст в число
         except ValueError:
             info['error'] = 'Возраст должен быть числом.'
-            return render(request, './fifth_task/registration_page.html', context={'info': info})
+            return render(request, './registration_page.html', context={'info': info})
 
         if password == repeat_password:
             if age >= 18:
@@ -86,7 +82,7 @@ def sign_up_by_html(request):
     else:
         info['error'] = 'Форма заполнена некорректно. Проверьте данные.'
     
-    return render(request, './fifth_task/registration_page.html', context={'info': info})
+    return render(request, './registration_page.html', context={'info': info})
 
 
 
@@ -106,7 +102,7 @@ def sign_up_by_django(request):
                 age = int(age)  # Преобразуем возраст в число
             except ValueError:
                 info['error'] = 'Возраст должен быть числом.'
-                return render(request, './fifth_task/registration_page.html', context={'info': info, 'form': form})
+                return render(request, './registration_page.html', context={'info': info, 'form': form})
 
             if password == repeat_password:
                 if age >= 18:
@@ -125,4 +121,11 @@ def sign_up_by_django(request):
     else:
         form = UserRegister()  # Пустая форма для GET-запроса
     
-    return render(request, './fifth_task/registration_page.html', context={'info': info, 'form': form})
+    return render(request, './registration_page.html', context={'info': info, 'form': form})
+
+def news_index(request):
+    news = News.objects.all().order_by('-date')
+    paginator = Paginator(news, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'news.html', {'page_obj': page_obj,})
