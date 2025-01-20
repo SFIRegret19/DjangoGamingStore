@@ -1,0 +1,15 @@
+{% extends "./menu.html" %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block pagename %}
+    <h1>{{ pagename }}</h1>
+{% endblock pagename %}
+
+{% block menu %}
+{{ block.super }}
+{% endblock menu %}
+
+{% block content %}
+    <h2>{{ cart_content_text }}</h2>
+{% endblock content %}
