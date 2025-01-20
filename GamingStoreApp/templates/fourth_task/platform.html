@@ -1,0 +1,19 @@
+{% extends "./menu.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block header %}
+    <h1>{{ pagename }}</h1>
+{% endblock header %}
+
+{% block navigation %}
+    <ul>
+        <li><a href="/platform">{{ platform_page_link_text }}</a></li>
+        <li><a href="/platform/games">{{ catalog_page_link_text }}</a></li>
+        <li><a href="/platform/cart">{{ cart_page_link_text }}</a></li>
+    </ul>
+{% endblock navigation %}
+
+{% block content %}{% endblock content %}

@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Здесь название в адресе страницы{% endblock %}</title>
+</head>
+<body>
+    <header>
+        {% block header %}
+        <h1>Здесь заголовок (название) страницы</h1>
+        {% endblock %}
+    </header>
+    <nav>
+        {% block navigation %}
+        <ul>
+            <li><a href="#!">Навигация</a></li>
+            <li><a href="#!">Навигация</a></li>
+            <li><a href="#!">Навигация</a></li>
+        </ul>
+        {% endblock %}
+    </nav>
+    <main>
+        {% block content %}
+            <p>Тут будет content</p>
+        {% endblock %}
+    </main>
+
+</body>
+</html>
