@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 class Buyer(models.Model):
     name = models.CharField(max_length=20)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     age = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])  # Возраст от 0 до 100
 
     def __str__(self):
